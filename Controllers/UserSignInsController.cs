@@ -42,7 +42,7 @@ namespace AuthenticationService.Controllers
                 var jwtSettings = Configuration.GetSection("JwtSettings");
                 var issuer = jwtSettings["Issuer"];
                 var audience = jwtSettings["Audience"];
-                var secretKey = jwtSettings["SecretKey"];
+                var secretKey = jwtSettings["Secret"];
                 var generateToken = JwtAuthenticationFactory.GetInstance(secretKey, issuer, audience);
                 var token = generateToken.GenerateToken(validateUser.Role, validateUser.Email);
                 if (!string.IsNullOrEmpty(token))
