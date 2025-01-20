@@ -54,7 +54,7 @@ namespace NetCoreIntermediate.Controllers
         }
 
         [HttpPost("verifyOTP")]
-        public async Task<IActionResult> verifyOTP([FromBody]OtpInfos otpModel)
+        public async Task<IActionResult> VerifyOTP([FromBody]OtpInfos otpModel)
         {
             var token = await VerifyUser.CheckOTPForEmailVerification(otpModel.otp,otpModel.email);
             if(token == null)
@@ -87,8 +87,17 @@ namespace NetCoreIntermediate.Controllers
 
         // PUT api/<SignUpUserController>/email
         [HttpPut("{id}")]
-        public void Put(string email, [FromBody] string value)
+        public async Task<IActionResult> Put(string email, [FromBody] TemporaryUser user)
         {
+            try
+            {
+                await BaseCrudServices.UpdateTheData(email, user);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE api/<SignUpUserController>/email
